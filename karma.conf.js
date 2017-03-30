@@ -1,17 +1,17 @@
 var webpackConfig = require("./webpack.config.js");
 
+webpackConfig.plugins = [];
+
 module.exports = function(config){
 	config.set({
 		browsers: ['Chrome'],
 		singleRun: true,
 		frameworks: ["mocha"],
 		files: [
-			"./public/build/manifest.*.js",
-			"./public/build/vendor.*.js",
 			"./src/tests/**/*.test.js",
-			],
+		],
 		preprocessors: {
-			'./src/tests/**/*.test.js': ['webpack', 'sourcemap']
+			'./src/tests/**/*.test.js': ['webpack']
 		},
 		reporters: ["mocha"],
 		//reporters: ["mocha", "progress"],

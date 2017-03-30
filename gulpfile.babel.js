@@ -34,6 +34,7 @@ gulp.task(
 
 
 function buildClient(cb) {
+	process.env.NODE_ENV = 'production';
 	webpack(webpackConfig, (err, stats) => {
 		if(err){
 			cb(err);
@@ -45,6 +46,20 @@ function buildClient(cb) {
 	});
 }
 
+gulp.task("watch", gulp.series("build", watchClient));
+
+
+function watchClient() {
+	const WebpackDevServer = require("webpack-dev-server");
+	const compiler = webpack(webpackConfig);
+	const server = new WebpackDevServer(compiler, {
+    	contentBase: "./public/",
+		hot: true,
+		stats: consoleStats
+	});
+
+	server.listen(8080, () => {});
+}
 
 //--------------------------------
 // Karma Testing

@@ -2,11 +2,13 @@ let path = require("path"),
 	_ = require("lodash"),
 	webpack = require("webpack"),
 	HtmlWebpackPlugin = require("html-webpack-plugin"),
-	ExtractTextPlugin = require("extract-text-webpack-plugin");
+	ExtractTextPlugin = require("extract-text-webpack-plugin"),
+	OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
+require('dotenv').config();
 
-const ENTRIES = ["./src/js/client.js"];
-const OUTPUT_PATH = path.join(__dirname, "public", "build");
+let frontEndEntries = ["./src/js/client.js"];
+const OUTPUT_PATH = path.join(__dirname, "public");
 
 const VENDOR_LIBS = [
 	"lodash",
@@ -16,11 +18,12 @@ const VENDOR_LIBS = [
 	"redux"
 ];
 
-const cssLoader = ExtractTextPlugin.extract("css-loader?sourceMap");
-const sassLoader = ExtractTextPlugin.extract("css-loader?sourceMap!sass-loader?sourceMap");
+//TO-DO: set is Dev from remote location
+const buildStyle = process.env.NODE_ENV || "development";
+const cssLoader = (buildStyle === "development") ? ["style-loader","css-loader?sourceMap"] : ExtractTextPlugin.extract("css-loader");
+const sassLoader = (buildStyle === "development") ?  ["style-loader","css-loader?sourceMap", "sass-loader?sourceMap"] : ExtractTextPlugin.extract("css-loader!sass-loader");
+const devtool = (buildStyle === "development") ? "source-map" : "";
 
-//const devtool = isDev ? "source-map" : null;
-const devtool = "source-map";
 const loaders = {
 	js: 	{ test: /\.jsx?$/, use:"babel-loader", exclude: /node_modules/ },
 	css: 	{ test: /\.css$/, use: cssLoader},
@@ -34,22 +37,40 @@ const plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
 		names: ["vendor", "manifest"]
 	}),
-	new HtmlWebpackPlugin({
-		template: "./src/index.html"
-	}),
 	new webpack.DefinePlugin({
 		"process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
 	}),
-	new ExtractTextPlugin({filename: "[name].css", allChunks: true})
+	new HtmlWebpackPlugin({
+		template: "./src/index.html"
+	}),
 ];
 
-//TO-DO: if prod, add uglify plugin
+let publicPath = "";
 
+if(buildStyle === "development"){
+	plugins.push(new webpack.HotModuleReplacementPlugin());
+	frontEndEntries.unshift(
+			"react-hot-loader/patch",
+			"webpack-dev-server/client?http://localhost:8080/", 
+			"webpack/hot/only-dev-server"
+			);
+	publicPath = "http://localhost:8080/";
+}else{
+	plugins.push(new webpack.optimize.DedupePlugin());
+	plugins.push(new ExtractTextPlugin({filename: "css/[name].[hash].css"}));
+	plugins.push(new OptimizeCssAssetsPlugin({
+		cssProcessorOptions: { discardComments: {removeAll: true } }
+	}));
+	plugins.push(new webpack.optimize.UglifyJsPlugin({compress: {warnings: false}}));
+
+}
+
+//TO-DO: if prod, add uglify plugin
 function createWebpackConfig(){
 	return {
 		devtool,
 		entry: {
-			app: ENTRIES,
+			app: frontEndEntries,
 			vendor: VENDOR_LIBS
 		},
 		module:{
@@ -57,7 +78,8 @@ function createWebpackConfig(){
 		},
 		output: {
 			path: OUTPUT_PATH,
-			filename: "[name].[chunkhash].js"
+			filename: "js/[name].[hash].js",
+			publicPath
 		},
 		plugins
 	};
