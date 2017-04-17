@@ -21,7 +21,7 @@ const consoleStats = {
 };
 
 gulp.task("clean", cb => {
-	rimraf("./public/build", () => cb());
+	rimraf("./public", () => cb());
 });
 
 gulp.task(
@@ -63,6 +63,9 @@ function watchClient() {
 
 //--------------------------------
 // Karma Testing
-gulp.task('tests', function (done) {
-  new Server({configFile: __dirname + '/karma.conf.js', singleRun: true}, done).start();
+gulp.task('test', function (done) {
+	Server.start({
+		configFile: __dirname + '/karma.conf.js',
+		singleRun: true
+	}, done);
 });

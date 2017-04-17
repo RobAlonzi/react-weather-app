@@ -7,7 +7,7 @@ let path = require("path"),
 
 require('dotenv').config();
 
-let frontEndEntries = ["./src/js/client.js"];
+let frontEndEntries = ["./src/client.js"];
 const OUTPUT_PATH = path.join(__dirname, "public");
 
 const VENDOR_LIBS = [
@@ -56,7 +56,6 @@ if(buildStyle === "development"){
 			);
 	publicPath = "http://localhost:8080/";
 }else{
-	plugins.push(new webpack.optimize.DedupePlugin());
 	plugins.push(new ExtractTextPlugin({filename: "css/[name].[hash].css"}));
 	plugins.push(new OptimizeCssAssetsPlugin({
 		cssProcessorOptions: { discardComments: {removeAll: true } }

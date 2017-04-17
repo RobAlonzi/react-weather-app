@@ -1,5 +1,5 @@
 {
-	"extends": "eslint:recommended",
+	"extends": ["eslint:recommended", "plugin:react/recommended"],
 	"plugins": [
 		"react"
 	],
@@ -7,9 +7,15 @@
 		"browser": true,
 		"commonjs": true,
 		"node": true,
-		"es6": true
+		"es6": true,
+		"jasmine": true
 	},
 	"parser": "babel-eslint",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
 	"rules": {
     	"indent": [
 			"error",

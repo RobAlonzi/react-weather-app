@@ -1,5 +1,5 @@
 var webpackConfig = require("./webpack.config.js");
-
+//plugins break the tests, debug in future
 webpackConfig.plugins = [];
 
 module.exports = function(config){
@@ -8,10 +8,10 @@ module.exports = function(config){
 		singleRun: true,
 		frameworks: ["mocha"],
 		files: [
-			"./src/tests/**/*.test.js",
+			"./src/**/*.test.js",
 		],
 		preprocessors: {
-			'./src/tests/**/*.test.js': ['webpack']
+			'./src/**/*.test.js': ['webpack']
 		},
 		reporters: ["mocha"],
 		//reporters: ["mocha", "progress"],
