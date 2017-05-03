@@ -1,3 +1,44 @@
-body{
-	background: #999;
+@import "css/mixins";
+
+body.dark-font-color{
+	color: #333;
+
+	a{
+		color:#000080;
+	}
+
+	.search-container input[type="text"] {
+		color: #333;
+		@include placeholder(#333);	
+	}
+
+	.search-container input[type="submit"] {
+		color: #000080;
+		border-color: #000080;
+
+		&:hover{
+			color:#FFF;
+		}
+	}
+}
+
+
+body.light-font-color{
+	color: #FFF;
+
+	.search-container input[type="text"] {
+		color: #FFF;
+		border-color: #FFF;
+		@include placeholder(#FFF);	
+	}
+
+	.search-container input[type="submit"] {
+		color: #FFF;
+		border-color: #FFF;
+
+		&:hover{
+			color:#FFF;
+		}
+	}
+
 }
