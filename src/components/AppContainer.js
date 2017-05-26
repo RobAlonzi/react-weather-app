@@ -25,7 +25,7 @@ class AppContainer extends Component{
 			dailyWeather:[],
 			hourlyWeather:[],
 			isLoading: false,
-			errorMessage: "",
+			errorMessage: null,
 			backgroundColor: "#FFF"
 		};		
 
@@ -72,7 +72,7 @@ class AppContainer extends Component{
 	}
 	
 	handleSearch(location){
-		this.setState({searchText: location, isLoading:true});
+		this.setState({searchText: location, isLoading:true, errorMessage: null});
 
 		Fetch.getLocationCoords(location).then(coords => {
 
@@ -128,8 +128,8 @@ class AppContainer extends Component{
 					<div className="container loading-dialog">
 						<div className="row">
 							<div className="col">
+								<i className="fa fa-spinner fa-spin fa-2x fa-fw"></i>
 								<p>Loading...</p>
-								<i className="ion-load-a"></i>
 							</div>
 						</div>
 					</div>		
@@ -153,7 +153,7 @@ class AppContainer extends Component{
 					!isLoading ?
 					<div className="container city-examples">
 						<div className="row">
-							<div className="col">
+							<div className="col-sm-12">
 								<p>Examples</p>
 								<ol>
 									<li><a onClick={() => this.handleSearch("Toronto, Canada")} href="javascript:;">Toronto, Canada</a></li>

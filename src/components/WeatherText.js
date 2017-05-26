@@ -24,16 +24,16 @@ const WeatherText = ({ city, weather }) => {
 						{weatherText}
 					</div>
 					<div className="row current-footer">
-						<div className=" col-4">
+						<div className="col-lg-4 col-md-6 col-sm-12">
 							<span>Sunrise: {weather.sunrise}</span>
 							<span>Sunset: {weather.sunset}</span>
 						</div>
-						<div className="col-4">
+						<div className="col-lg-4 col-md-6 col-sm-12">
 							<span>Cloud Coverage: {weather.clouds}%</span>
 							<span>Humidity: {weather.humidity}%</span>
 							<span>Wind Speed: {weather.wind} meter/sec</span>
 						</div>
-						<div className="last-updated col-4">
+						<div className="last-updated col-lg-4 col-md-12 col-sm-12">
 							Last Updated: {weather.lastUpd}
 						</div>
 					</div>	

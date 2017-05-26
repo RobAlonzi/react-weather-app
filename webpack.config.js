@@ -27,7 +27,8 @@ const devtool = (buildStyle === "development") ? "source-map" : "";
 const loaders = {
 	js: 	{ test: /\.jsx?$/, use:"babel-loader", exclude: /node_modules/ },
 	css: 	{ test: /\.css$/, use: cssLoader},
-	sass: 	{ test: /\.scss$/, use: sassLoader},
+	sass: 	{ test: /\.scss$/, use: sassLoader}
+
 	// eslint: { test: /\.jsx?$/, loader: "eslint", exclude: /node_modules/ },
 	// json: 	{ test: /\.json$/, loader: "json" },
 	// files: 	{ test: /\.(png|jpg|jpeg|gif|woff|ttf|eot|svg|woff2)/, loader: "url-loader?limit=5000" } 

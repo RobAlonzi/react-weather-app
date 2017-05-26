@@ -5,7 +5,7 @@ import "./WeatherForcastListItem.scss";
 
 function createHourlyListItem(weather){
 	return (
-		<div className="forecast-list-item col">
+		<div className="forecast-list-item weather-drop-in">
 			<h3>{weather.timeHour}</h3>
 			<span>{weather.timeDay}</span>
 			<img src={`http://openweathermap.org/img/w/${weather.icon}.png`} alt={weather.weatherText}/>
@@ -27,7 +27,7 @@ const WeatherForcastListItem = ({ type, weather }) => {
 		return createHourlyListItem(weather);
 	} else{
 		return (
-			<div className="forecast-list-item daily-forecast col">
+			<div className="forecast-list-item daily-forecast weather-drop-in">
 				<h3>{weather.timeDay}</h3>
 				<img src={`http://openweathermap.org/img/w/${weather.icon}.png`} alt={weather.weatherText}/>
 				<h4>High: {weather.tempMax}&deg;C</h4>

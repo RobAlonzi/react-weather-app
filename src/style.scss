@@ -26,6 +26,10 @@ body.dark-font-color{
 body.light-font-color{
 	color: #FFF;
 
+	a{
+		color:lighten(#0275d8, 10%);
+	}
+
 	.search-container input[type="text"] {
 		color: #FFF;
 		border-color: #FFF;
@@ -41,4 +45,16 @@ body.light-font-color{
 		}
 	}
 
+}
+
+
+#github{
+	font-size:0.75rem;
+	margin:5px;
+
+	i{
+		font-size:1rem;
+		position: relative;
+		top:1px;
+	}
 }

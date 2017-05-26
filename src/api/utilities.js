@@ -89,8 +89,9 @@ let convertTimeToLocalTimeAndFormat = (timestamp, format, needsUtc) => {
 
 
 let setBackgroundColor = (weather) => {
-	const MidnightToNoon = ["001848", "301860", "483078", "604878",  "906090", "bea9de", "9AC1D9", "9CC8D9", "91BAD6"];
-	const NoonToMidnight = MidnightToNoon.slice(0).reverse();
+	let MidnightToNoon = ["001848", "301860", "483078", "604878", "9AC1D9", "9CC8D9", "91BAD6"];
+	let NoonToMidnight = MidnightToNoon.slice(0).reverse();
+	MidnightToNoon.splice(1, 0, "003194");
 
 	let timeArr = weather.time.slice(0, -3).split(":").map(time => {
 		return time === "12" ? 0 : parseInt(time);
@@ -130,12 +131,19 @@ function transitionToBackground(oldColor, newColor){
 	return function transitionLoop(i) {
 		transitionTimeout = setTimeout(function () {   
 			document.body.style.backgroundColor = `#${rainbowTransition.colorAt(i)}`;
-			document.body.classList.remove("light-font-color");
-			document.body.classList.remove("dark-font-color");
 
 			let fontColor = contrast(rainbowTransition.colorAt(i)) === 'light' ? 'dark-font-color' : 'light-font-color';
 			
-			document.body.classList.add(fontColor);               
+			console.log(fontColor);
+			console.log(document.body.classList);
+			console.log(document.body.classList.contains(fontColor));
+
+			if(!document.body.classList.contains(fontColor)){
+				document.body.classList.remove("light-font-color");
+				document.body.classList.remove("dark-font-color");
+				document.body.classList.add(fontColor);    
+			}
+           
 			if (--i) transitionLoop(i);    
 		}, 0);
 	}; 

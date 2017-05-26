@@ -54,9 +54,9 @@ class WeatherForcastList extends Component{
 							</div>	
 						</div>	
 						<CSSTransitionGroup
-							transitionName="example"
+							transitionName="dropIn"
 							component="div"
-							className="row"
+							className="row forecast-row"
 							transitionEnterTimeout={500}
 							transitionLeaveTimeout={300}>
 								{this.renderForecasts()}

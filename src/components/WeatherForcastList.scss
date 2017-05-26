@@ -1,3 +1,5 @@
+@import "../css/mixins";
+
 .forecast-container{
 	margin-top:100px;
 	padding:20px;
@@ -10,6 +12,10 @@
 		margin-bottom:20px;
 		border-bottom:1px solid #EEE;
 		text-align: center;
+
+		@include mq("phone"){
+			font-size:1.5rem;
+		}
 	}
 
 	.switch-container{
@@ -17,24 +23,32 @@
 		padding-top:20px;
 		border-top:1px solid #EEE;
 		margin-top:20px;
+
+		@include mq("phone"){
+			text-align: center;
+		}
+	}
+
+	.forecast-row{
+		justify-content: space-around;
 	}
 }
 
 
-.example-enter {
+.dropIn-enter {
   opacity: 0.01;
 }
 
-.example-enter.example-enter-active {
+.dropIn-enter.dropIn-enter-active {
   opacity: 1;
   transition: opacity 500ms ease-in;
 }
 
-.example-leave {
+.dropIn-leave {
   opacity: 1;
 }
 
-.example-leave.example-leave-active {
+.dropIn-leave.dropIn-leave-active {
   opacity: 0.01;
   transition: opacity 300ms ease-in;
 }
