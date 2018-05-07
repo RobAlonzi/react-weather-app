@@ -11,7 +11,7 @@ const ROOT_URL_DAILY = `http://api.openweathermap.org/data/2.5/forecast/daily?ap
 const ROOT_URL_HOURLY = `http://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}&units=metric&cnt=5`;
 const ROOT_URL_CURRENT = `http://api.openweathermap.org/data/2.5/weather?appid=${API_KEY}&units=metric`;
 
-let getLocationCoords = (location) => {
+const getLocationCoords = (location) => {
 	let endcodedLocation = encodeURIComponent(location);
 	let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${endcodedLocation}`;
 
@@ -31,7 +31,7 @@ let getLocationCoords = (location) => {
 };
 
 
-let getDailyTemp = (lat, lon) => {
+const getDailyTemp = (lat, lon) => {
 	const DAILY_URL = `${ROOT_URL_DAILY}&lat=${lat}&lon=${lon}`;
 
 	return getOpenWeatherMapData(DAILY_URL).then(weather => {
@@ -42,7 +42,7 @@ let getDailyTemp = (lat, lon) => {
 };
 
 
-let getHourlyTemp = (lat, lon) => {
+const getHourlyTemp = (lat, lon) => {
 	const HOURLY_URL = `${ROOT_URL_HOURLY}&lat=${lat}&lon=${lon}`;
 	return getOpenWeatherMapData(HOURLY_URL).then(weather => {
 		return Utils.parseHourlyTemp(weather.list);
@@ -51,7 +51,7 @@ let getHourlyTemp = (lat, lon) => {
 	});
 };
 
-let getCurrentTemp = (lat, lon) => {
+const getCurrentTemp = (lat, lon) => {
 	const CURRENT_URL = `${ROOT_URL_CURRENT}&lat=${lat}&lon=${lon}`;
 	return getOpenWeatherMapData(CURRENT_URL).then(weather => {
 		return Utils.parseCurrentTemp(weather);
@@ -60,8 +60,8 @@ let getCurrentTemp = (lat, lon) => {
 	});
 };
 
-function getOpenWeatherMapData(URL){
-	return axios.get(URL).then(res => {
+const getOpenWeatherMapData = (url) =>{
+	return axios.get(url).then(res => {
 		if(res.data.cod !== "200" && res.data.cod !== 200){
 			throw new Error(res.data.message);
 		}else{
@@ -73,7 +73,7 @@ function getOpenWeatherMapData(URL){
 
 }
 
-let getTimeZoneData = (lat, lon) => {
+const getTimeZoneData = (lat, lon) => {
 	let targetDate = new Date();
 	let timestamp = targetDate.getTime() / 1000 + targetDate.getTimezoneOffset() * 60;
 

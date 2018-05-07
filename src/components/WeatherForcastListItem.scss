@@ -1,5 +1,6 @@
 @import "../css/mixins";
 
+
 .forecast-list-item{
 	text-align: center;
 	margin:25px 0;
@@ -13,7 +14,12 @@
 		line-height:1;
 		font-size:1.25rem;
 		margin-bottom:0;
-		font-weight: 700;
+	}
+
+	h3, h4{
+		@include mq("lg"){
+			margin:0;
+		}
 	}
 
 	img{
@@ -27,6 +33,13 @@
 			font-size:0.75rem;
 		}
 	}
+
+	@include mq("lg"){
+		border-bottom:1px solid white;
+		margin:0;
+		padding: 30px 0;
+	}
+
 }
 
 
