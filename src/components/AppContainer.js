@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import _ from "lodash";
-
+import Grid from "material-ui/Grid"
+import Paper from 'material-ui/Paper';
 
 import * as Fetch from "../api/fetchCalls";
 import { convertTimeToLocalTimeAndFormat, setBackgroundColor } from "../api/utilities";
+
+import Loading from "./Loading";
+import Examples from "./Examples";
 import WeatherSearch from "./WeatherSearch";
 import WeatherText from "./WeatherText";
 import WeatherForcastList from "./WeatherForcastList";
@@ -121,52 +125,42 @@ class AppContainer extends Component{
 	render(){
 		let { isLoading, city, currentWeather, hourlyWeather, dailyWeather, errorMessage } = this.state;
 		return (
-			<div>
+			<Grid container justify="center">
 				
-				{ 	
-					isLoading ?
-					<div className="container loading-dialog">
-						<div className="row">
-							<div className="col">
-								<i className="fa fa-spinner fa-spin fa-2x fa-fw"></i>
-								<p>Loading...</p>
-							</div>
-						</div>
-					</div>		
+				{isLoading ?
+
+					<Grid item xs={8}>
+						<Loading />	
+					</Grid>
+						
 					: Object.keys(city).length > 0 && Object.keys(currentWeather).length > 0 && !errorMessage ? 
-					<span>
-					<WeatherSearch onSearch={this.handleSearch} />
-					<WeatherText city={city.name} weather={currentWeather}/>
-					<WeatherForcastList hourly={hourlyWeather} daily={dailyWeather} />
-					</span>
-					: 
-					<div className="container landing-page-search">
-						<div className="row">
-							<div className="col">
-								<p>Search the weather in any city....</p>
-								<WeatherSearch onSearch={this.handleSearch} />
-							</div>	
-						</div>
-					</div>
+					
+
+					<Grid item xs={11} md={8}>
+						<Grid item xs={12} alignContent="flex-end">
+							<WeatherSearch onSearch={this.handleSearch} />
+						</Grid>
+						<Grid item xs={12}>
+							<WeatherText city={city.name} weather={currentWeather}/>
+							<WeatherForcastList hourly={hourlyWeather} daily={dailyWeather} />
+							<Examples handleSearch={this.handleSearch} />
+						</Grid>
+					</Grid>
+					
+
+					:
+
+					<Grid item xs={12} md={8}>
+						<Grid item xs={12}>
+							<WeatherSearch onSearch={this.handleSearch} isLandingPage={true}/>
+						</Grid>
+
+						<Grid item xs={12}>
+							<Examples handleSearch={this.handleSearch} />
+						</Grid>
+					</Grid>
 				}
-				{
-					!isLoading ?
-					<div className="container city-examples">
-						<div className="row">
-							<div className="col-sm-12">
-								<p>Examples</p>
-								<ol>
-									<li><a onClick={() => this.handleSearch("Toronto, Canada")} href="javascript:;">Toronto, Canada</a></li>
-									<li><a onClick={() => this.handleSearch("Montevideo, Uruguay")} href="javascript:;">Montevideo, Uruguay</a></li>
-									<li><a onClick={() => this.handleSearch("Tokyo, Japan")} href="javascript:;">Tokyo, Japan</a></li>
-									<li><a onClick={() => this.handleSearch("Rome, Italy")} href="javascript:;">Rome, Italy</a></li>
-								</ol>
-							</div>	
-						</div>	
-					</div>
-					: null
-				}
-			</div>
+			</Grid>
 		);
 	}
 }

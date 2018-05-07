@@ -6,7 +6,7 @@ let timeZoneData = {};
 let transitionTimeout;
 
 
-let parseDailyTemp = (weather) => {
+const parseDailyTemp = (weather) => {
 	return weather.map(day => {
 		let snow = day.snow ? day.snow : undefined;
 		let rain = day.rain ? day.rain : undefined;
@@ -25,7 +25,7 @@ let parseDailyTemp = (weather) => {
 	});
 };
 
-let parseHourlyTemp = (weather) => {
+const parseHourlyTemp = (weather) => {
 
 	return weather.map(hour => {
 		let snow = hour.snow ? hour.snow["3h"] : undefined;
@@ -45,7 +45,7 @@ let parseHourlyTemp = (weather) => {
 	});
 };
 
-let parseCurrentTemp = (weather) => {
+const parseCurrentTemp = (weather) => {
 	let weatherText = weather.weather.map(obj => {
 		return {
 			text: toProperCase(obj.description),
@@ -66,7 +66,7 @@ let parseCurrentTemp = (weather) => {
 	};
 };
 
-let setTimeZoneData = (data) => {
+const setTimeZoneData = (data) => {
 	timeZoneData = {
 		dstOffset: data.dstOffset,
 		rawOffset: data.rawOffset,
@@ -77,7 +77,7 @@ let setTimeZoneData = (data) => {
 	return timeZoneData;
 };
 
-let convertTimeToLocalTimeAndFormat = (timestamp, format, needsUtc) => {
+const convertTimeToLocalTimeAndFormat = (timestamp, format, needsUtc) => {
 
 	if(!timestamp){
 		timestamp = getCurrentTime();
@@ -88,7 +88,7 @@ let convertTimeToLocalTimeAndFormat = (timestamp, format, needsUtc) => {
 };
 
 
-let setBackgroundColor = (weather) => {
+const setBackgroundColor = (weather) => {
 	let MidnightToNoon = ["001848", "301860", "483078", "604878", "9AC1D9", "9CC8D9", "91BAD6"];
 	let NoonToMidnight = MidnightToNoon.slice(0).reverse();
 	MidnightToNoon.splice(1, 0, "003194");
@@ -118,12 +118,12 @@ let setBackgroundColor = (weather) => {
 
 }; 
 
-function getCurrentTime(){
+const getCurrentTime = () => {
 	let targetDate = new Date();
 	return targetDate.getTime() / 1000 + targetDate.getTimezoneOffset() * 60;
 }
 
-function transitionToBackground(oldColor, newColor){
+const transitionToBackground = (oldColor, newColor) => {
 	const rainbowTransition = new Rainbow();
 	rainbowTransition.setNumberRange(1, 250);
 	rainbowTransition.setSpectrum(newColor, oldColor);
@@ -149,7 +149,7 @@ function transitionToBackground(oldColor, newColor){
 	}; 
 }
 
-function rgb2hex(rgb){
+const rgb2hex = rgb => {
 	rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
 	return (rgb && rgb.length === 4) ? "#" +
 		("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
@@ -157,7 +157,7 @@ function rgb2hex(rgb){
 		("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
-function toProperCase(str){
+const toProperCase = str => {
 	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 

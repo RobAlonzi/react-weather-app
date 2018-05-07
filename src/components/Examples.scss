@@ -1,0 +1,29 @@
+@import "../css/mixins";
+
+.city-examples{
+	text-align: center;
+
+	p{
+		font-size:1.5rem;
+		margin:60px 0 0;
+	}
+
+	ol{
+		margin:0 0 30px;
+		padding:0;
+
+		@include mq("tablet"){
+			margin-bottom:20px;
+		}
+
+		li{
+			display: inline-block;
+			margin:0 20px 0 0;
+
+			@include mq("tablet"){
+				display: block;
+				margin:10px 0;
+			}
+		}
+	}
+}

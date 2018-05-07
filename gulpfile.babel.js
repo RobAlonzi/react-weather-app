@@ -53,7 +53,7 @@ function watchClient() {
 	const WebpackDevServer = require("webpack-dev-server");
 	const compiler = webpack(webpackConfig);
 	const server = new WebpackDevServer(compiler, {
-    	contentBase: "./public/",
+		contentBase: "./public/",
 		hot: true,
 		stats: consoleStats
 	});
@@ -69,3 +69,14 @@ gulp.task('test', function (done) {
 		singleRun: true
 	}, done);
 });
+
+// gulp.task('jest', function () {
+// 	return gulp.src('./src/**/App.test.js').pipe(jest({
+// 		config: {
+// 			"transformIgnorePatterns": [
+// 				"<rootDir>/dist/", "<rootDir>/node_modules/"
+// 			],
+// 			"automock": false
+// 		}
+// 	}));
+// });

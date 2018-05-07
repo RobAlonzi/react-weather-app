@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import Grid from "material-ui/Grid";
+import Input from 'material-ui/Input';
+import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
 
 import "./WeatherSearch.scss";
@@ -6,46 +9,42 @@ import "./WeatherSearch.scss";
 class WeatherSearch extends Component{
 	constructor(props) {
 		super(props);
+		
+		this.state = { searchValue: "" };
+
 		this.onSearch = this.onSearch.bind(this);
+		this.onInputChange = this.onInputChange.bind(this);
+	}
+
+	onInputChange(e){
+		this.setState({ searchValue: e.target.value });
 	}
 
 	onSearch(e){
 		e.preventDefault();
-		let location = this.refs.search.value;
+
+		let location = this.state.searchValue;
 		
 		if(location.length > 0){
-			this.refs.search.value = "";
+			this.setState({ searchValue: "" });
 			this.props.onSearch(location);
 		}
 	}
 
 	render(){
 		return (
-			<div className="container-fluid">
-				<div className="row">
-					<div className="search-container col">
-						<form onSubmit={this.onSearch} className="float-right">
-							<ul className="menu nav">
-								<li>
-									<div className="input-group">
-										<input className="form-control" type="text" placeholder="Search Weather by city" ref="search" />
-									</div>
-								</li>
-								<li>
-									<div className="input-group">
-										<input type="submit" className="form-control btn btn-outline-primary" value="Get Weather" />
-									</div>
-								</li>
-							</ul>
-						</form>
-					</div>
-				</div>	
-			</div>
+			<Grid item xs={12} className={`${this.props.isLandingPage ? "landing-page-search" : ""} search-container`}>
+				{ this.props.isLandingPage ? <p> Search the weather in any city.... </p> : null }
+				<form onSubmit={this.onSearch}>
+					<Input className="search-input" placeholder="Search Weather by city" onChange={this.onInputChange} />
+					<Button variant="raised" type="submit" color="primary" >Get Weather</Button>
+				</form>
+			</Grid>
 		);
 	}
 }
 
-WeatherSearch.PropTypes = {
+WeatherSearch.propTypes = {
 	onSearch: PropTypes.func.isRequired
 };
 

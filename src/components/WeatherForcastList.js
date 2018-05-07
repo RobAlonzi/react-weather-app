@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import Grid from 'material-ui/Grid';
 import PropTypes from 'prop-types';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import WeatherForcastListItem from "./WeatherForcastListItem";
 
@@ -36,7 +37,11 @@ class WeatherForcastList extends Component{
 		let { forecastType } = this.state;
 
 		return this.props[forecastType].map((obj, index) => {
-			return <WeatherForcastListItem key={index} type={forecastType} weather={obj} />;
+			return (
+				<CSSTransition key={index} component="div" classNames="dropIn" timeout={{ enter: 500, exit: 300}}>
+					<WeatherForcastListItem type={forecastType} weather={obj} />
+				</CSSTransition>
+			);
 		});
 	}
 
@@ -45,37 +50,23 @@ class WeatherForcastList extends Component{
 		let { forecastText, switchText } = this.state;
 
 		return (
-			<div className="container-fluid">
-				<div className="row justify-content-center">
-					<div className="forecast-container col-10">
-						<div className="row">
-							<div className="col">
-								<h2>{forecastText} Forecast</h2>
-							</div>	
-						</div>	
-						<CSSTransitionGroup
-							transitionName="dropIn"
-							component="div"
-							className="row forecast-row"
-							transitionEnterTimeout={500}
-							transitionLeaveTimeout={300}>
-								{this.renderForecasts()}
-						</CSSTransitionGroup>
-						<div className="row switch-container">
-							<div className="col">
-								<a href="javascript:;" onClick={this.forecastTypeSwitch}>{switchText}</a>
-							</div>	
-						</div>		
-						
-					</div>
-				</div>	
-			</div>
+			<Grid container className="forecast-container">
+				<Grid item xs={12}>
+					<h2>{forecastText} Forecast</h2>	
+				</Grid>
+				
+				{this.renderForecasts()}
+
+				<Grid item xs={12} className="switch-container">
+					<a href="javascript:;" onClick={this.forecastTypeSwitch}>{switchText}</a>		
+				</Grid>			
+			</Grid>
 		);
 	}
 }
 
 
-WeatherForcastList.propTypes = { 
+WeatherForcastList.PropTypes = { 
 	hourly: PropTypes.array.isRequired,
 	daily: PropTypes.array.isRequired
 };
