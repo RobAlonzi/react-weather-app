@@ -1,8 +1,13 @@
 import React from 'react';
 import Grid from 'material-ui/Grid';
+import PropTypes from "prop-types";
 
 import "../css/Examples.scss";
 
+/**  
+ * Component that will create the 'Examples' section
+ * @returns {Function}
+ * */
 const Examples = props => {
 	return (
 		<Grid item className="city-examples">
@@ -16,5 +21,9 @@ const Examples = props => {
 		</Grid>
 	);
 }
+
+Examples.propTypes = { 
+	handleSearch: PropTypes.func.isRequired
+};
 
 export default Examples;

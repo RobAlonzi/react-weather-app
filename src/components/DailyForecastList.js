@@ -3,6 +3,12 @@ import Grid from 'material-ui/Grid';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
+
+/**  
+ * Component that will create the 'Daily Forecast' items for the panel
+ * @param {Object[]} forecasts - Array of daily forecast objects
+ * @returns {Function}
+ * */
 const DailyForcastList = ({ forecasts }) => {
 
 	return forecasts.map((forecast, index) => {
@@ -27,7 +33,6 @@ const DailyForcastList = ({ forecasts }) => {
 		);
 	})
 };
-
 
 DailyForcastList.propTypes = { 
 	forecasts: PropTypes.array.isRequired

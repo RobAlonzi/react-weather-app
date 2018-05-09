@@ -5,6 +5,14 @@ import PropTypes from 'prop-types';
 import "../css/ForecastPanel.scss";
 import "../css/ForecastPanelItem.scss";
 
+/**  
+ * Component that will create the parent panel to either the daily or hourly forecasts
+ * @param {Function} children - The React component item lists 
+ * @param {Function} handleSwitch - What function to run when clicking 'Switch to'
+ * @param {String} title - Text for '... Forecast'
+ * @param {String} switchTxt - Text 'Switch to ...'
+ * @returns {Function}
+ * */
 const ForecastPanel = ({children, handleSwitch, title, switchTxt }) => {
 	return (
 		<Grid container className="forecast-container">

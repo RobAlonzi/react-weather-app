@@ -5,9 +5,7 @@ import Grid from "material-ui/Grid"
 import Paper from 'material-ui/Paper';
 import { connect } from 'react-redux';
 
-import { setBackgroundColor } from "../api/utilities";
-
-import { handleSearch, switchToDaily, switchToHourly } from "../actions/index";
+import { handleSearch, switchToDaily, switchToHourly, activateTimers, togglePageLoading } from "../actions/index";
 
 import Loading from "./Loading";
 import Examples from "./Examples";
@@ -21,33 +19,28 @@ import "../css/AppContainer.scss";
 
 class AppContainer extends Component{
 
-	componentDidMount(){
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
 
-		//TODO: add background change functionality
+	static getDerivedStateFromProps(nextProps){
 
-		// let { location: { timezone }} = this.props;
+		if(nextProps.weather.isLoading && nextProps.weather.forecast.current && nextProps.weather.forecast.hourly && nextProps.weather.forecast.daily){
 
-		// //every 10 minutes get weather
-		// setInterval(() =>{
-		// 	if(timezone.lat && timezone.lon){
-		// 		// Get new weather
-		// 	}
-		// }, 600000);
+			nextProps.togglePageLoading();
+			
+			if(!nextProps.weather.timersActivated){
+				nextProps.activateTimers();
+			}
+		}
 
-		// //every minute get time
-		// setInterval(() =>{
-
-		// 	if(timezone.lat && timezone.lon){
-		// 		let time = convertTimeToLocalTimeAndFormat(undefined, "h:mm A");
-
-		// 		// Set time
-		// 	}
-		// }, 60000);
+		return {};
 	}
 
 
 	render(){
-		let { isLoading, isWeatherLoaded, error, location, forecast, activePanel } = this.props.weather;
+		let { isLoading, error, location, forecast, activePanel } = this.props.weather;
 		return (
 			<Grid container justify="center">
 				
@@ -103,4 +96,4 @@ function mapStateToProps(state){
 	}
 }
 
-export default connect(mapStateToProps, { handleSearch, switchToDaily, switchToHourly })(AppContainer);
+export default connect(mapStateToProps, { handleSearch, switchToDaily, switchToHourly, activateTimers, togglePageLoading })(AppContainer);

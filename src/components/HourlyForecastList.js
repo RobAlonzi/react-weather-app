@@ -3,9 +3,12 @@ import Grid from 'material-ui/Grid';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-
+/**  
+ * Component that will create the 'Hourly Forecast' items for the panel
+ * @param {Object[]} forecasts - Array of hourly forecast objects
+ * @returns {Function}
+ * */
 const HourlyForcastList = ({ forecasts }) => {
-
 	return forecasts.map((forecast, index) => {
 		return (
 			<CSSTransition key={index} component="div" classNames="dropIn" timeout={{ enter: 500, exit: 300}}>
@@ -29,7 +32,6 @@ const HourlyForcastList = ({ forecasts }) => {
 		);
 	})
 };
-
 
 HourlyForcastList.propTypes = { 
 	forecasts: PropTypes.array.isRequired

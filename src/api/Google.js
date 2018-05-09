@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-import * as Utils from "./utilities";
 import "../config/config";
-
 
 // Google URLs 
 const TIMEZONE_API_KEY = process.env.TIMEZONE_API_KEY;
 const TIMEZONE_ROOT_URL = `https://maps.googleapis.com/maps/api/timezone/json?key=${TIMEZONE_API_KEY}`;
-const GEOCODE_URL = `https://maps.googleapis.com/maps/api/geocode/json?address=`;
+const GEOCODE_URL = `https://maps.googleapis.com/maps/api/geocode/json?key=${TIMEZONE_API_KEY}&address=`;
+
 
 /**  
  * Get location coordinates and name of a string location,
@@ -38,7 +37,6 @@ const getLocationInfo = (location) => {
 				});
 	
 			});
-
 		}).catch(err => {
 			// Reject with the error
 			reject(err);
@@ -46,12 +44,15 @@ const getLocationInfo = (location) => {
 	});
 };
 
+
 /**  
  * API call to get location coordinates and name of location from a string location
  * @param {String} location - The string location
  * @returns {Promise}
  * */
 const getLocationNameAndCoords = location => {
+
+	// Encode location string
 	let endcodedLocation = encodeURIComponent(location);
 
 	return axios.get(GEOCODE_URL + endcodedLocation).then((res) => {
@@ -76,6 +77,7 @@ const getLocationNameAndCoords = location => {
 	});
 }
 
+
 /**  
  * API call to get timezone information from GPS coordinates
  * @param {String} location - The string location
@@ -87,11 +89,10 @@ const getTimeZoneData = (lat, lon) => {
 	let targetDate = new Date();
 	let timestamp = targetDate.getTime() / 1000 + targetDate.getTimezoneOffset() * 60;
 	
-
+	// Create the API URL
 	let TIMEZONE_URL = `${TIMEZONE_ROOT_URL}&location=${lat},${lon}&timestamp=${timestamp}`;
 
 	return axios.get(TIMEZONE_URL).then(res => {
-
 		// Invalid request, let the parent handle it
 		if(res.data.status === "INVALID_REQUEST"){
 			throw new Error("Invalid Request sent.");
@@ -106,8 +107,7 @@ const getTimeZoneData = (lat, lon) => {
 	});
 };
 
-
-
+// Export
 module.exports = {
 	getLocationInfo
 };

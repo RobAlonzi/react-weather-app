@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 
 import "../css/WeatherText.scss";
 
+/**  
+ * Component that will create the 'Current Weather' panel
+ * @param {String} city - The name of the location
+ * @param {Object} forecast - Current forecast information
+ * @returns {Function}
+ * */
 const CurrentWeather = ({ city, forecast }) => {
 
 	let forecastIcons = forecast.icon.map((obj, index) => {
