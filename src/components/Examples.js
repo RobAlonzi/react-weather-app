@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from 'material-ui/Grid';
 
-import "./Examples.scss";
+import "../css/Examples.scss";
 
 const Examples = props => {
 	return (

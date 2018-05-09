@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from 'material-ui/Grid';
 import { CircularProgress } from 'material-ui/Progress';
 
-import './Loading.scss';
+import '../css/Loading.scss';
 
 const Loading = () => {
 	return (

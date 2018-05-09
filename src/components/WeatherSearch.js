@@ -4,7 +4,7 @@ import Input from 'material-ui/Input';
 import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
 
-import "./WeatherSearch.scss";
+import "../css/WeatherSearch.scss";
 
 class WeatherSearch extends Component{
 	constructor(props) {

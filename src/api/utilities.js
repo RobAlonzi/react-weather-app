@@ -1,96 +1,21 @@
-import moment from "moment";
 import Rainbow from 'rainbowvis.js';
 import contrast from "contrast";
 
-let timeZoneData = {};
 let transitionTimeout;
 
 
-const parseDailyTemp = (weather) => {
-	return weather.map(day => {
-		let snow = day.snow ? day.snow : undefined;
-		let rain = day.rain ? day.rain : undefined;
+const getCurrentTimestamp = () => {
+	let targetDate = new Date();
+	return targetDate.getTime() / 1000 + targetDate.getTimezoneOffset() * 60;
+}
 
-		return {
-			timeDay: convertTimeToLocalTimeAndFormat(day.dt, "MMM Do", true),
-			clouds: day.clouds,
-			humidity: day.humidity,
-			rain,
-			snow,
-			tempMin: day.temp.min,
-			tempMax: day.temp.max,
-			weatherText: toProperCase(day.weather[0].description),
-			icon: day.weather[0].icon
-		};
-	});
-};
 
-const parseHourlyTemp = (weather) => {
-
-	return weather.map(hour => {
-		let snow = hour.snow ? hour.snow["3h"] : undefined;
-		let rain = hour.rain ? hour.rain["3h"] : undefined;
-		return {
-			timeHour: convertTimeToLocalTimeAndFormat(hour.dt, "h A", true),
-			timeDay: convertTimeToLocalTimeAndFormat(hour.dt, "MMM Do", true),
-			humidity: hour.main.humidity,
-			temperature: hour.main.temp,
-			clouds: hour.clouds.all,
-			rain,
-			snow,
-			wind: hour.wind.speed,
-			weatherText: toProperCase(hour.weather[0].description),
-			icon: hour.weather[0].icon
-		};
-	});
-};
-
-const parseCurrentTemp = (weather) => {
-	let weatherText = weather.weather.map(obj => {
-		return {
-			text: toProperCase(obj.description),
-			icon: obj.icon
-		};
-	});
-
-	return {
-		time: convertTimeToLocalTimeAndFormat(undefined, "h:mm A"),
-		lastUpd: convertTimeToLocalTimeAndFormat(weather.dt, "MMM do, h:mm A", true),
-		temperature: weather.main.temp,
-		humidity: weather.main.humidity,
-		clouds: weather.clouds.all,
-		wind: weather.wind.speed,
-		sunrise: convertTimeToLocalTimeAndFormat(weather.sys.sunrise, "h:mm A", true),
-		sunset: convertTimeToLocalTimeAndFormat(weather.sys.sunset, "h:mm A", true),
-		weatherText: weatherText
-	};
-};
-
-const setTimeZoneData = (data) => {
-	timeZoneData = {
-		dstOffset: data.dstOffset,
-		rawOffset: data.rawOffset,
-		timeoneId: data.timeoneId,
-		timeZoneName: data.timeZoneName	
-	};
-
-	return timeZoneData;
-};
-
-const convertTimeToLocalTimeAndFormat = (timestamp, format, needsUtc) => {
-
-	if(!timestamp){
-		timestamp = getCurrentTime();
-	}
-	
-	let convertedTimestamp = timestamp + timeZoneData.dstOffset + timeZoneData.rawOffset;
-	return !needsUtc ? moment.unix(convertedTimestamp).format(format) : moment.unix(convertedTimestamp).utc().format(format);
-};
 
 
 const setBackgroundColor = (weather) => {
 	let MidnightToNoon = ["001848", "301860", "483078", "604878", "9AC1D9", "9CC8D9", "91BAD6"];
 	let NoonToMidnight = MidnightToNoon.slice(0).reverse();
+	
 	MidnightToNoon.splice(1, 0, "003194");
 
 	let timeArr = weather.time.slice(0, -3).split(":").map(time => {
@@ -118,10 +43,6 @@ const setBackgroundColor = (weather) => {
 
 }; 
 
-const getCurrentTime = () => {
-	let targetDate = new Date();
-	return targetDate.getTime() / 1000 + targetDate.getTimezoneOffset() * 60;
-}
 
 const transitionToBackground = (oldColor, newColor) => {
 	const rainbowTransition = new Rainbow();
@@ -133,10 +54,6 @@ const transitionToBackground = (oldColor, newColor) => {
 			document.body.style.backgroundColor = `#${rainbowTransition.colorAt(i)}`;
 
 			let fontColor = contrast(rainbowTransition.colorAt(i)) === 'light' ? 'dark-font-color' : 'light-font-color';
-			
-			console.log(fontColor);
-			console.log(document.body.classList);
-			console.log(document.body.classList.contains(fontColor));
 
 			if(!document.body.classList.contains(fontColor)){
 				document.body.classList.remove("light-font-color");
@@ -157,16 +74,10 @@ const rgb2hex = rgb => {
 		("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
-const toProperCase = str => {
-	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-}
+
 
 
 module.exports = {
-	parseDailyTemp,
-	parseHourlyTemp,
-	parseCurrentTemp,
-	setTimeZoneData,
-	convertTimeToLocalTimeAndFormat,
-	setBackgroundColor
+	setBackgroundColor,
+	getCurrentTimestamp
 };
