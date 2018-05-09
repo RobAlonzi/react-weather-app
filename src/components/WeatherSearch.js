@@ -4,8 +4,14 @@ import Input from 'material-ui/Input';
 import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
 
-import "./WeatherSearch.scss";
+import "../css/WeatherSearch.scss";
 
+
+/**  
+ * Component that will create the search bar in the top right of center (if landing page state)
+ * @param {Boolean} isLandingPage - Is it the landing page view
+ * @returns {Function}
+ * */
 class WeatherSearch extends Component{
 	constructor(props) {
 		super(props);
@@ -45,7 +51,7 @@ class WeatherSearch extends Component{
 }
 
 WeatherSearch.propTypes = {
-	onSearch: PropTypes.func.isRequired
+	isLandingPage: PropTypes.bool
 };
 
 export default WeatherSearch;

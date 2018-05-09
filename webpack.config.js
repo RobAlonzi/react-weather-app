@@ -4,7 +4,7 @@ let path = require("path"),
 	ExtractTextPlugin = require("extract-text-webpack-plugin"),
 	OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const isDebug = true;
+const isDebug = false;
 const dirname = path.resolve("./");
 
 const devTool = isDebug ? "eval-source-map" : "";
